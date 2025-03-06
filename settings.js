@@ -1,8 +1,8 @@
 export default 
 {
     "minecraft_version": "1.20.4", // supports up to 1.21.1
-    "host": "127.0.0.1", // or "localhost", "your.ip.address.here"
-    "port": process.env.MINECRAFT_PORT || 55916,
+    "host": "host.docker.internal", // Docker環境からホストマシンへ接続するための特殊アドレス
+    "port": process.env.MINECRAFT_PORT || 55281,
     "auth": "offline", // or "microsoft"
 
     // the mindserver manages all agents and hosts the UI

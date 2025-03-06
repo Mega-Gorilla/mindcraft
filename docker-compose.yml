@@ -2,13 +2,20 @@ version: '3.8'
 
 services:
   app:
-    image: node:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     working_dir: /app
     volumes:
       - .:/app
-    command: node main.js
+    environment:
+      - MINECRAFT_PORT=${MINECRAFT_PORT:-55281}
+      - MINDSERVER_PORT=${MINDSERVER_PORT:-8080}
     ports:
       - "3000-3003:3000-3003" # see the view from the camera mounted on your bot head: http://localhost:3000/
+      - "${MINDSERVER_PORT:-8080}:${MINDSERVER_PORT:-8080}" # マインドサーバー接続用ポート
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # ホストマシンへの接続を有効化
 
   viaproxy: #use this service to connect to an unsupported minecraft server versions. more info: ./services/viaproxy/README.md
     image: ghcr.io/viaversion/viaproxy:latest

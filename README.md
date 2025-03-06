@@ -30,6 +30,29 @@ Do not connect this bot to public servers with coding enabled. This project allo
 
 If you encounter issues, check the [FAQ](https://github.com/kolbytn/mindcraft/blob/main/FAQ.md) or find support on [discord](https://discord.gg/mp73p35dzC). We are currently not very responsive to github issues.
 
+## Docker環境での実行
+
+Docker環境でMindcraftを実行する場合、以下の方法でポート設定をカスタマイズできます：
+
+1. 環境変数を設定する方法：
+   ```bash
+   # Minecraftのポートを指定して起動
+   MINECRAFT_PORT=55555 docker-compose up -d
+   
+   # マインドサーバーのポートも同時に指定
+   MINECRAFT_PORT=55555 MINDSERVER_PORT=8888 docker-compose up -d
+   ```
+
+2. `.env`ファイルを編集する方法：
+   `.env`ファイルの値を編集し、`docker-compose up -d`で起動します。
+
+3. Minecraft LANサーバーとの接続：
+   - Minecraftでワールドを開き、LANに公開する（例：ポート55555）
+   - `.env`ファイルまたは環境変数で同じポート番号を設定
+   - Docker環境を起動
+
+注意: Docker環境とMinecraftは同じポート番号を使用しますが、実際のポートマッピングは行われません。Dockerコンテナは`host.docker.internal`経由でホストマシンのMinecraftに接続します。
+
 ## Model Customization
 
 You can configure project details in `settings.js`. [See file.](settings.js)

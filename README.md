@@ -1,3 +1,16 @@
+# Mindcraft - Dockerized Fork 🧠⛏️🐳
+
+> This is a fork of the original [Mindcraft](https://github.com/kolbytn/mindcraft) project with enhanced Docker support.
+> 
+> ## Key Improvements in this Fork
+> 
+> - **Containerized Environment**: Fully automated setup with Docker and Docker Compose
+> - **Flexible Port Configuration**: Easy connection to Minecraft LAN servers through environment variables
+> - **Cross-Platform Compatibility**: Seamless operation across Windows, Mac, and Linux
+> - **Dependency Management**: Automatic installation of all dependencies on container startup
+>
+> See the [Docker Setup](#docker-setup) section below for detailed instructions.
+
 # Mindcraft 🧠⛏️
 
 Crafting minds for Minecraft with LLMs and [Mineflayer!](https://prismarinejs.github.io/mineflayer/#/)
@@ -7,6 +20,29 @@ Crafting minds for Minecraft with LLMs and [Mineflayer!](https://prismarinejs.gi
 
 > [!Caution]
 Do not connect this bot to public servers with coding enabled. This project allows an LLM to write/execute code on your computer. The code is sandboxed, but still vulnerable to injection attacks. Code writing is disabled by default, you can enable it by setting `allow_insecure_coding` to `true` in `settings.js`. Ye be warned.
+
+## Docker Setup
+
+This fork provides an improved Docker environment for running Mindcraft. You can easily connect to Minecraft LAN servers with flexible port configuration:
+
+1. Using environment variables:
+   ```bash
+   # Specify Minecraft port during startup
+   MINECRAFT_PORT=55555 docker-compose up -d
+   
+   # Specify both Minecraft and Mindserver ports
+   MINECRAFT_PORT=55555 MINDSERVER_PORT=8888 docker-compose up -d
+   ```
+
+2. Using the `.env` file:
+   Edit the `.env` file values and start with `docker-compose up -d`.
+
+3. Connecting to Minecraft LAN server:
+   - Open a Minecraft world and share it to LAN (e.g., port 55555)
+   - Set the same port number in `.env` file or environment variables
+   - Start the Docker environment
+
+Note: The Docker container and Minecraft use the same port number, but no actual port mapping occurs. The Docker container connects to the Minecraft server on the host machine via `host.docker.internal`.
 
 ## Requirements
 
@@ -29,29 +65,6 @@ Do not connect this bot to public servers with coding enabled. This project allo
 6. Run `node main.js` from the installed directory
 
 If you encounter issues, check the [FAQ](https://github.com/kolbytn/mindcraft/blob/main/FAQ.md) or find support on [discord](https://discord.gg/mp73p35dzC). We are currently not very responsive to github issues.
-
-## Docker環境での実行
-
-Docker環境でMindcraftを実行する場合、以下の方法でポート設定をカスタマイズできます：
-
-1. 環境変数を設定する方法：
-   ```bash
-   # Minecraftのポートを指定して起動
-   MINECRAFT_PORT=55555 docker-compose up -d
-   
-   # マインドサーバーのポートも同時に指定
-   MINECRAFT_PORT=55555 MINDSERVER_PORT=8888 docker-compose up -d
-   ```
-
-2. `.env`ファイルを編集する方法：
-   `.env`ファイルの値を編集し、`docker-compose up -d`で起動します。
-
-3. Minecraft LANサーバーとの接続：
-   - Minecraftでワールドを開き、LANに公開する（例：ポート55555）
-   - `.env`ファイルまたは環境変数で同じポート番号を設定
-   - Docker環境を起動
-
-注意: Docker環境とMinecraftは同じポート番号を使用しますが、実際のポートマッピングは行われません。Dockerコンテナは`host.docker.internal`経由でホストマシンのMinecraftに接続します。
 
 ## Model Customization
 
@@ -96,15 +109,21 @@ To use different accounts, Mindcraft will connect with the account that the Mine
 
 If you intend to `allow_insecure_coding`, it is a good idea to run the app in a docker container to reduce risks of running unknown code. This is strongly recommended before connecting to remote servers.
 
+The original approach (manual setup):
 ```bash
 docker run -i -t --rm -v $(pwd):/app -w /app -p 3000-3003:3000-3003 node:latest node main.js
 ```
-or simply
+
+Using our improved Docker setup (recommended):
 ```bash
-docker-compose up
+# Simple start with default settings
+docker-compose up -d
+
+# With custom port
+MINECRAFT_PORT=55555 docker-compose up -d
 ```
 
-When running in docker, if you want the bot to join your local minecraft server, you have to use a special host address `host.docker.internal` to call your localhost from inside your docker container. Put this into your [settings.js](settings.js):
+When running in docker, if you want the bot to join your local minecraft server, you have to use a special host address `host.docker.internal` to call your localhost from inside your docker container. This is already configured in this fork, but if you're using the original version, put this into your [settings.js](settings.js):
 
 ```javascript
 "host": "host.docker.internal", // instead of "localhost", to join your local minecraft from inside the docker container

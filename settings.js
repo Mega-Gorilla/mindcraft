@@ -1,22 +1,22 @@
 export default 
 {
-    "minecraft_version": "1.20.4", // supports up to 1.21.1
+    "minecraft_version": "1.20.4", // 1.21.1までサポート
     "host": "host.docker.internal", // Docker環境からホストマシンへ接続するための特殊アドレス
     "port": process.env.MINECRAFT_PORT || 55281,
-    "auth": "offline", // or "microsoft"
+    "auth": "offline", // または "microsoft"
 
-    // the mindserver manages all agents and hosts the UI
-    "host_mindserver": true, // if true, the mindserver will be hosted on this machine. otherwise, specify a public IP address
+    // mindserverはすべてのエージェントを管理し、UIをホストします
+    "host_mindserver": true, // trueの場合、mindserverはこのマシンでホストされます。それ以外の場合は、パブリックIPアドレスを指定してください
     "mindserver_host": "localhost",
     "mindserver_port": process.env.MINDSERVER_PORT || 8080,
     
-    // the base profile is shared by all bots for default prompts/examples/modes
-    "base_profile": "./profiles/defaults/survival.json", // also see creative.json, god_mode.json
+    // ベースプロファイルはすべてのボットで共有され、デフォルトのプロンプト/例/モードに使用されます
+    "base_profile": "./profiles/defaults/survival.json", // creative.json、god_mode.jsonも参照してください
     "profiles": ((process.env.PROFILES) && JSON.parse(process.env.PROFILES)) || [
-        "./andy.json",
-        // "./profiles/gpt.json",
-        // "./profiles/claude.json",
-        // "./profiles/gemini.json",
+        //"./andy.json",
+         "./profiles/gpt.json",
+         "./profiles/claude.json",
+        //"./profiles/gemini.json",
         // "./profiles/llama.json",
         // "./profiles/qwen.json",
         // "./profiles/mistral.json",
@@ -24,24 +24,24 @@ export default
         // "./profiles/mistral.json",
         // "./profiles/deepseek.json",
 
-        // using more than 1 profile requires you to /msg each bot indivually
-        // individual profiles override values from the base profile
+        // 複数のプロファイルを使用する場合は、/msgコマンドで各ボットに個別にメッセージを送る必要があります
+        // 個別のプロファイルはベースプロファイルの値を上書きします
     ],
-    "load_memory": false, // load memory from previous session
-    "init_message": "Respond with hello world and your name", // sends to all on spawn
-    "only_chat_with": [], // users that the bots listen to and send general messages to. if empty it will chat publicly
+    "load_memory": false, // 前回のセッションからメモリをロード
+    "init_message": "Respond with hello world and your name", // 起動時にすべてのボットに送信
+    "only_chat_with": [], // ボットが聞き取り、一般メッセージを送信するユーザー。空の場合は公開チャットになります
     
-    "language": "en", // translate to/from this language. Supports these language names: https://cloud.google.com/translate/docs/languages
-    "show_bot_views": false, // show bot's view in browser at localhost:3000, 3001...
+    "language": "ja", // この言語に翻訳します。サポートされる言語名: https://cloud.google.com/translate/docs/languages
+    "show_bot_views": false, // ボットの視点をブラウザで表示（localhost:3000, 3001...）
 
-    "allow_insecure_coding": false, // allows newAction command and model can write/run code on your computer. enable at own risk
-    "code_timeout_mins": -1, // minutes code is allowed to run. -1 for no timeout
-    "relevant_docs_count": 5, // Parameter: -1 = all, 0 = no references, 5 = five references. If exceeding the maximum, all reference documents are returned.
+    "allow_insecure_coding": true, // newActionコマンドを許可し、モデルがコンピュータ上でコードを書いたり実行したりできるようにします。自己責任で有効にしてください
+    "code_timeout_mins": 5, // コードが実行を許可される時間（分）。-1はタイムアウトなし
+    "relevant_docs_count": 5, // パラメータ: -1 = すべて、0 = 参照なし、5 = 5つの参照。最大値を超える場合、すべての参照ドキュメントが返されます
 
-    "max_messages": 15, // max number of messages to keep in context
-    "num_examples": 2, // number of examples to give to the model
-    "max_commands": -1, // max number of commands that can be used in consecutive responses. -1 for no limit
-    "verbose_commands": true, // show full command syntax
-    "narrate_behavior": true, // chat simple automatic actions ('Picking up item!')
-    "chat_bot_messages": true, // publicly chat messages to other bots
+    "max_messages": 30, // コンテキストに保持するメッセージの最大数
+    "num_examples": 2, // モデルに提供する例の数
+    "max_commands": -1, // 連続した応答で使用できるコマンドの最大数。-1は制限なし
+    "verbose_commands": true, // コマンドの完全な構文を表示
+    "narrate_behavior": true, // 簡単な自動アクション（「アイテムを拾う！」）をチャットに表示
+    "chat_bot_messages": true, // 他のボットへのメッセージを公開チャットに表示
 }
